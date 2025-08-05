@@ -1,0 +1,35 @@
+{
+  "name": "live-md",
+  "version": "0.0.1",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@codemirror/lang-markdown": "^6.3.4",
+    "@codemirror/language": "^6.11.2",
+    "@codemirror/language-data": "^6.5.1",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.1",
+    "@lezer/highlight": "^1.2.1",
+    "@lezer/markdown": "^1.4.3",
+    "codemirror": "^6.0.2",
+    "katex": "^0.16.22"
+  }
+}

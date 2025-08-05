@@ -1,0 +1,174 @@
+:root {
+  --font-monospace: var(--font-jetbrains-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-dim-muted: color-mix(
+    in oklab,
+    var(--color-muted) 50%,
+    var(--color-background) 20%
+  );
+}
+
+.cm-gutters {
+  background-color: transparent !important;
+  border-right: 1px solid #ffffff55 !important;
+  padding-right: 0.25rem !important;
+}
+
+.livemd {
+  .cm-scroller {
+    justify-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  }
+
+  .cm-editor {
+    background-color: var(--color-background) !important;
+
+    .cm-cursor {
+      border-left-color: var(--color-foreground) !important;
+    }
+
+    .cm-layer.cm-selectionLayer {
+      z-index: 99 !important;
+      pointer-events: none !important;
+
+      .cm-selectionBackground {
+        opacity: 0.4 !important;
+      }
+    }
+  }
+
+  .cm-content {
+    padding-bottom: 6rem !important;
+    padding-top: 3rem !important;
+    font-size: 18px;
+    max-width: 48rem;
+    margin: 0 auto;
+
+    .cm-widgetBuffer {
+      display: none !important;
+    }
+
+    .cm-activeLine {
+      background-color: transparent !important;
+    }
+
+    .cm-line {
+      padding: 0 0.5rem !important;
+      color: color-mix(
+        in oklab,
+        var(--color-foreground) 70%,
+        var(--color-background) 20%
+      ) !important;
+
+      .cm-mark-hidden {
+        display: none;
+      }
+
+      .cm-mark-to-hide,
+      .cm-mark-to-hide > span {
+        color: var(--color-muted-foreground) !important;
+        opacity: 1 !important;
+      }
+
+      /* Headings */
+      [class^="cm-mark-heading-"] {
+        display: block;
+        padding: 0.25rem 0;
+        margin-bottom: 0.5rem;
+
+        border: none;
+        border-bottom: 2px solid;
+        border-width: 2px;
+        border-image-slice: 1;
+        border-image-source: linear-gradient(
+          to right,
+          #f4569d,
+          #100e17,
+          #100e17,
+          #100e17
+        );
+
+        * {
+          color: var(--color-foreground) !important;
+        }
+      }
+
+      /* Strong */
+      .cm-mark-strongemphasis,
+      .cm-mark-strongemphasis > span,
+      strong,
+      strong > span {
+        color: var(--color-foreground) !important;
+        font-weight: bold;
+      }
+
+      /* Emphasis */
+      .cm-mark-emphasis,
+      .cm-mark-emphasis > span,
+      em,
+      em > span {
+        color: var(--color-foreground) !important;
+        font-style: italic;
+      }
+
+      /* Inline Code */
+      .cm-mark-inlinecode,
+      code {
+        font-size: 1em !important;
+        font-family: var(--font-monospace) !important;
+        color: var(--color-foreground) !important;
+        background-color: var(--color-dim-muted) !important;
+        padding: 0.05rem 0.25rem !important;
+        border-radius: 0.25rem !important;
+        border: 1px solid var(--color-muted) !important;
+      }
+    }
+
+    .cm-fenced-code-line,
+    .cm-fenced-code-start-line,
+    .cm-fenced-code-end-line {
+      font-size: 0.75em !important;
+      padding: 0.25rem 1.5rem !important;
+      margin: 0 -1rem !important;
+      color: color-mix(
+        in oklab,
+        var(--foreground) 70%,
+        var(--background) 20%
+      ) !important;
+      /* background-color: var(--color-dim-muted) !important; */
+      background-color: color-mix(
+        in oklab,
+        var(--muted) 90%,
+        var(--background) 100%
+      ) !important;
+      font-family: var(--font-monospace) !important;
+    }
+
+    .cm-fenced-code-start-line {
+      position: relative;
+      border-radius: 1rem 1rem 0 0 !important;
+      padding-top: 0.5rem !important;
+      margin-top: 0.5rem !important;
+
+      &::before {
+        content: attr(data-lang);
+        font-family: var(--font-monospace) !important;
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 0.75em;
+        color: var(--color-muted-foreground);
+      }
+    }
+
+    .cm-fenced-code-end-line {
+      border-radius: 0 0 1rem 1rem !important;
+      padding-bottom: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+  }
+}

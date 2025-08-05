@@ -12,12 +12,22 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.8.1",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lang-markdown": "^6.3.4",
+    "@codemirror/language": "^6.11.2",
+    "@codemirror/language-data": "^6.5.1",
+    "@lezer/markdown": "^1.4.3",
+    "@uiw/codemirror-theme-github": "^4.24.2",
+    "@uiw/react-codemirror": "^4.24.2",
     "@workspace/ui": "workspace:*",
+    "live-md": "workspace:*",
     "lucide-react": "^0.475.0",
     "next": "^15.2.3",
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "use-debounce": "^10.0.5"
   },
   "devDependencies": {
     "@types/node": "^20",
