@@ -191,7 +191,7 @@ export default function Page() {
             />
           </div>
 
-          <div className="w-2/5 h-full border-l border-gray-200 dark:border-gray-700 p-4 overflow-y-auto">
+          <div className="w-2/5 hidden lg:block h-full border-l border-gray-200 dark:border-gray-700 p-4 overflow-y-auto">
             <h2 className="text-lg font-semibold mb-2">Parsed Nodes</h2>
             <CodeMirror
               value={(

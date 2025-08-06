@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
+import { Viewport } from "next";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -18,6 +19,10 @@ const fontJetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
+export const viewport: Viewport = {
+  interactiveWidget: "resizes-content",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,13 +30,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, interactive-widget=resizes-content"
-        />
-      </head>
-
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontJetBrainsMono.variable} font-sans antialiased h-full`}
         suppressHydrationWarning
