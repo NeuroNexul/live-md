@@ -1,0 +1,39 @@
+.livemd {
+  .cm-content {
+    .cm-mark-inlinemath,
+    .cm-mark-blockmath {
+      color: #7ee787 !important;
+      font-family: var(--font-monospace) !important;
+    }
+
+    .cm-markdoc-math-inline {
+      font-size: 1em;
+      /* pointer-events: none; */
+    }
+
+    .cm-markdoc-math-block {
+      display: block;
+      padding: 1rem 0.5rem;
+      border: 1px solid;
+      border-color: transparent;
+      border-radius: 0.25rem;
+      font-family: "Courier New", Courier, monospace;
+      overflow-x: auto;
+      /* pointer-events: none; */
+      transition: border-color 0.2s ease-in-out;
+
+      &:hover {
+        border-color: #ccc;
+      }
+
+      &:active {
+        pointer-events: none;
+      }
+
+      .katex-display {
+        margin: 0;
+        font-size: 1rem;
+      }
+    }
+  }
+}

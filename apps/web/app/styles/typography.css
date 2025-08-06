@@ -1,0 +1,66 @@
+.livemd {
+  .cm-line {
+    color: color-mix(
+      in oklab,
+      var(--color-foreground) 70%,
+      var(--color-background) 20%
+    ) !important;
+
+    /* Headings */
+    [class^="cm-mark-heading-"] {
+      display: block;
+      padding: 0.25rem 0;
+      margin-bottom: 0.5rem;
+
+      border: none;
+      border-bottom: 2px solid;
+      border-width: 2px;
+      border-image-slice: 1;
+      border-image-source: linear-gradient(
+        to right,
+        #f4569d,
+        var(--color-background),
+        var(--color-background),
+        var(--color-background)
+      );
+
+      * {
+        color: var(--color-foreground) !important;
+      }
+    }
+
+    /* Strong */
+    .cm-mark-strongemphasis,
+    .cm-mark-strongemphasis > span,
+    strong,
+    strong > span {
+      color: var(--color-foreground) !important;
+      font-weight: bold;
+    }
+
+    /* Emphasis */
+    .cm-mark-emphasis,
+    .cm-mark-emphasis > span,
+    em,
+    em > span {
+      color: var(--color-foreground) !important;
+      font-style: italic;
+    }
+
+    /* Inline Code */
+    .cm-mark-inlinecode,
+    code {
+      font-size: 1em !important;
+      font-family: var(--font-monospace) !important;
+      color: var(--color-foreground) !important;
+      background-color: var(--color-dim-muted) !important;
+      padding: 0.05rem 0rem !important;
+      border-radius: 0.25rem !important;
+      border: 1px solid var(--color-muted) !important;
+
+      .cm-mark-to-hide {
+        margin-inline: -0.05rem;
+      }
+    }
+  }
+}

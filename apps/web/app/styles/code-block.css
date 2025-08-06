@@ -1,0 +1,50 @@
+.livemd {
+  .cm-content {
+    .cm-fenced-code-line,
+    .cm-fenced-code-start-line,
+    .cm-fenced-code-end-line {
+      font-size: 0.75em !important;
+      padding: 0.25rem 1.5rem !important;
+      margin: 0 -1rem !important;
+      color: color-mix(
+        in oklab,
+        var(--foreground) 70%,
+        var(--background) 20%
+      ) !important;
+      /* background-color: var(--color-dim-muted) !important; */
+      background-color: color-mix(
+        in oklab,
+        var(--muted) 90%,
+        var(--background) 100%
+      ) !important;
+      font-family: var(--font-monospace) !important;
+
+      @media (max-width: 52rem) {
+        margin: 0 0.5rem !important;
+      }
+    }
+
+    .cm-fenced-code-start-line {
+      position: relative;
+      border-radius: 1rem 1rem 0 0 !important;
+      padding-block: 0rem !important;
+      margin-top: 0.5rem !important;
+
+      &::before {
+        content: attr(data-lang);
+        font-family: var(--font-monospace) !important;
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 0.75em;
+        color: var(--color-muted-foreground);
+      }
+    }
+
+    .cm-fenced-code-end-line {
+      border-radius: 0 0 1rem 1rem !important;
+      padding-block: 0rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+  }
+}

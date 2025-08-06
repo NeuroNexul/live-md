@@ -1,0 +1,32 @@
+.livemd {
+  .cm-content {
+    .cm-markdoc-image-figure {
+      display: table;
+      max-width: 100%;
+      margin: 1rem auto;
+      border-radius: 1rem;
+      overflow: clip;
+      background-color: var(--color-dim-muted);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .cm-markdoc-image {
+      display: block;
+      margin: 0;
+      max-width: 100%;
+      max-height: 500px;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .cm-markdoc-image-caption {
+      text-align: center;
+      width: 100%;
+      padding: 0.25rem 0;
+      color: var(--color-muted-foreground);
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+  }
+}

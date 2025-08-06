@@ -26,6 +26,7 @@ import { languages } from "@codemirror/language-data";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 
 import liveMDPlugin from "live-md";
+// import "live-md/katex.css";
 import {
   Table,
   GFM,
@@ -36,6 +37,7 @@ import {
   TaskList,
   Emoji,
 } from "@lezer/markdown";
+import { NodeType } from "../../../packages/live-md/dist/rich-edit";
 
 let defaultValue = `## Title
 
@@ -75,6 +77,7 @@ export default function Page() {
   const editor = React.useRef<ReactCodeMirrorRef>(null);
   const [value, setValue] = React.useState(defaultValue);
   const [showCode, setShowCode] = React.useState(false);
+  const [nodes, setNodes] = React.useState<NodeType[]>([]);
 
   const defaultExtensions = React.useMemo<Extension[]>(() => {
     return showCode
@@ -97,6 +100,7 @@ export default function Page() {
                 Emoji,
               ],
             },
+            getNodes: (nodes) => setNodes(nodes),
           }),
         ];
   }, [showCode]);
@@ -114,7 +118,7 @@ export default function Page() {
   return (
     <div className="h-full p-2">
       <div className="h-full w-full flex flex-col overflow-clip rounded-lg border border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between flex-wrap px-4 py-2 border-b border-gray-200 dark:border-gray-700">
           <h1 className="text-xl font-semibold">CodeMirror Editor</h1>
 
           <div className="flex items-center space-x-2">
@@ -154,7 +158,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="flex-1 h-full overflow-hidden">
+        <div className="flex-1 h-full flex overflow-hidden">
           <div className="w-full h-full flex items-stretch justify-stretch">
             <CodeMirror
               id={id}
@@ -184,6 +188,34 @@ export default function Page() {
                 lineNumbers: showCode,
                 foldGutter: showCode,
               }}
+            />
+          </div>
+
+          <div className="w-2/5 h-full border-l border-gray-200 dark:border-gray-700 p-4 overflow-y-auto">
+            <h2 className="text-lg font-semibold mb-2">Parsed Nodes</h2>
+            <CodeMirror
+              value={(
+                nodes
+                  .map(
+                    (n) => `[ "${n.name}", "${n.parent}", ${n.from}, ${n.to} ]`
+                  )
+                  .join("\n") || "No nodes found."
+              ).trim()}
+              className="h-full w-full"
+              theme={githubDark}
+              extensions={[
+                jsonLanguage,
+                // EditorView.lineWrapping,
+                keymap.of([indentWithTab, ...defaultKeymap]),
+              ]}
+              basicSetup={{
+                drawSelection: true,
+                highlightActiveLine: true,
+                rectangularSelection: true,
+                indentOnInput: true,
+                lineNumbers: true,
+              }}
+              readOnly={true}
             />
           </div>
         </div>

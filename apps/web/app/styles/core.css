@@ -1,0 +1,79 @@
+:root {
+  --font-monospace: var(--font-jetbrains-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-dim-muted: color-mix(
+    in oklab,
+    var(--color-muted) 50%,
+    var(--color-background) 20%
+  );
+}
+
+.cm-gutters {
+  background-color: transparent !important;
+  border-right: 1px solid #ffffff55 !important;
+  padding-right: 0.25rem !important;
+}
+
+.livemd {
+  .cm-scroller {
+    justify-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  }
+
+  .cm-editor {
+    background-color: var(--color-background) !important;
+
+    .cm-cursor {
+      border-left-color: var(--color-foreground) !important;
+    }
+
+    .cm-layer.cm-selectionLayer {
+      z-index: 99 !important;
+      pointer-events: none !important;
+
+      .cm-selectionBackground {
+        opacity: 0.4 !important;
+      }
+    }
+  }
+
+  .cm-content {
+    padding-bottom: 6rem !important;
+    padding-top: 3rem !important;
+    /* overflow-x: hidden !important; */
+    font-size: 18px;
+    max-width: 48rem;
+    margin: 0 auto;
+
+    .cm-widgetBuffer {
+      display: none !important;
+    }
+
+    .cm-activeLine {
+      background-color: transparent;
+    }
+
+    .cm-line {
+      padding: 0 0.5rem;
+
+      .cm-mark-hidden {
+        display: none;
+      }
+
+      .cm-mark-codemark,
+      .cm-mark-codeinfo {
+        visibility: hidden !important;
+      }
+
+      .cm-mark-to-hide,
+      .cm-mark-to-hide > span {
+        color: var(--color-muted-foreground) !important;
+        opacity: 1 !important;
+      }
+    }
+  }
+}

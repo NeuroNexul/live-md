@@ -1,0 +1,21 @@
+.livemd {
+  .cm-content {
+    .cm-bulletlist-line,
+    .cm-orderedlist-line {
+      position: relative;
+      padding-inline-start: 1.5rem !important;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background-color: var(--color-muted);
+      }
+    }
+  }
+}
