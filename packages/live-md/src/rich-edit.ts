@@ -37,8 +37,6 @@ const tokenHidden = [
   "CodeMark",
   "CodeInfo",
   "URL",
-  "ListMark",
-  "TaskMarker",
   "SubscriptMark",
   "SuperscriptMark",
   "StrikethroughMark",
@@ -253,12 +251,15 @@ export default class RichEditPlugin implements PluginValue {
           if (node.name === "BulletList" || node.name === "OrderedList") {
             const startLine = view.state.doc.lineAt(node.from);
             const endLine = view.state.doc.lineAt(node.to);
+            const isFocused = cursor.from >= node.from && cursor.to <= node.to;
 
             for (let i = startLine.number; i <= endLine.number; i++) {
               const line = view.state.doc.line(i);
               widgets.push(
                 Decoration.line({
-                  class: `cm-${node.name.toLowerCase()}-line`,
+                  class: `cm-${node.name.toLowerCase()}-line ${
+                    isFocused ? "cm-focused" : ""
+                  }`,
                 }).range(line.from)
               );
             }
@@ -272,6 +273,30 @@ export default class RichEditPlugin implements PluginValue {
               Decoration.line({
                 class: `cm-${node.name.toLowerCase()}-end-line`,
               }).range(endLine.from)
+            );
+          }
+
+          /**
+           * ListMarks need to be overlaped with bullet when not in selection.
+           * TaskMarkers are also handled here.
+           */
+          if (node.name === "ListMark" || node.name === "TaskMarker") {
+            let additionalClass = "";
+            if (node.name === "TaskMarker") {
+              const taskText = view.state.doc.sliceString(node.from, node.to);
+              const isChecked =
+                taskText.includes("x") || taskText.includes("X");
+
+              additionalClass = isChecked
+                ? "cm-task-checked"
+                : "cm-task-unchecked";
+            }
+
+            // Adding decoration for the ListMark and TaskMarker
+            widgets.push(
+              Decoration.mark({
+                class: `cm-mark-${node.name.toLowerCase()} ${additionalClass}`,
+              }).range(node.from, node.to)
             );
           }
 

@@ -2,20 +2,87 @@
   .cm-content {
     .cm-bulletlist-line,
     .cm-orderedlist-line {
+      .cm-mark-bulletlist,
+      .cm-mark-orderedlist {
+        position: relative;
+        padding-inline-start: 1.5rem !important;
+      }
+    }
+
+    .cm-bulletlist-start-line,
+    .cm-orderedlist-start-line {
+      padding-block-start: 0.5rem !important;
+    }
+
+    .cm-bulletlist-end-line,
+    .cm-orderedlist-end-line {
+      padding-block-end: 0.5rem !important;
+    }
+
+    .cm-orderedlist-line .cm-mark-listmark {
+      display: inline-block;
+      font-weight: bold;
+      width: 1.5em;
+      text-align: center;
+
+      * {
+        color: inherit !important;
+      }
+    }
+
+    .cm-bulletlist-line .cm-mark-listmark {
+      display: inline-block;
       position: relative;
-      padding-inline-start: 1.5rem !important;
+      color: #889 !important;
+      font-weight: bold;
+      width: 1.5em;
+      text-align: center;
+    }
+
+    .cm-bulletlist-line:not(.cm-focused) .cm-mark-listmark::before {
+      content: "•";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: inherit !important;
+    }
+
+    .cm-bulletlist-line:not(.cm-focused):has(.cm-mark-task) .cm-mark-listmark {
+      display: none;
+    }
+
+    .cm-bulletlist-line:not(.cm-focused) .cm-mark-taskmarker {
+      display: inline-block;
+      position: relative;
+      width: 1.5em;
+      height: 1.5em;
+
+      span {
+        visibility: hidden;
+      }
 
       &::before {
         content: "";
+        font-size: 0.8em;
+        text-align: center;
+        color: var(--color-foreground);
+
         position: absolute;
-        left: 0.5rem;
+        height: calc(100% - 0.5em);
+        width: calc(100% - 0.5em);
+        left: 50%;
         top: 50%;
-        transform: translateY(-50%);
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background-color: var(--color-muted);
+        transform: translate(-50%, -50%);
+
+        border: 1px solid var(--color-foreground);
+        border-radius: 0.25em;
       }
+    }
+
+    .cm-bulletlist-line:not(.cm-focused)
+      .cm-mark-taskmarker.cm-task-checked::before {
+      content: "✓";
     }
   }
 }
