@@ -69,9 +69,8 @@ export default class RichEditPlugin implements PluginValue {
 
   process(view: EditorView): DecorationSet {
     let widgets: Range<Decoration>[] = [];
-    let [cursor] = view.state.selection.ranges;
-    const lines = view.state.doc.toString().split("\n");
-    const processedHTMLs = new Set();
+    let cursor = view.state.selection.main;
+    // const lines = view.state.doc.toString().split("\n");
 
     const nodes: NodeType[] = [];
 
@@ -97,125 +96,6 @@ export default class RichEditPlugin implements PluginValue {
 
           if (node.name === "MarkdocTag")
             widgets.push(decorationTag.range(node.from, node.to));
-
-          /**
-           * Adding support for HTML tags.
-           *
-           * These tages are identified as single tag only,
-           * so, we need to iterate through the syntax tree
-           * to find the matching closing tag.
-           *
-           * Also, we need to ensure that the tag is not already processed
-           * to avoid duplicate decorations.
-           */
-          if (node.name === "HTMLTag") {
-            // If this HTML tag has already been processed, skip it.
-            // This prevents reprocessing the same tag multiple times.
-            if (processedHTMLs.has(node.from)) {
-              return;
-            }
-
-            const tagText = view.state.doc.sliceString(node.from, node.to);
-
-            // If the tag is a closing tag or self-closing, skip it.
-            if (tagText.startsWith("</") || tagText.endsWith("/>")) return;
-
-            // Find the tag name (e.g., "span").
-            const tagNameMatch = tagText.match(/^<([a-zA-Z0-9]+)/);
-            if (!tagNameMatch) return;
-            const tagName = tagNameMatch[1];
-
-            let balance = 1;
-            let finalTo = -1;
-
-            // Start a *new* iteration to scan for the matching closing tag.
-            syntaxTree(view.state).iterate({
-              from: node.to + 1, // Start searching *after* the current opening tag.
-              enter: (innerNode) => {
-                if (innerNode.name === "HTMLTag") {
-                  const innerTagText = view.state.doc.sliceString(
-                    innerNode.from,
-                    innerNode.to
-                  );
-                  const innerTagNameMatch =
-                    innerTagText.match(/^<\/?([a-zA-Z0-9]+)/);
-
-                  // Only consider tags of the same kind (e.g., 'span' with 'span').
-                  if (innerTagNameMatch && innerTagNameMatch[1] === tagName) {
-                    if (innerTagText.startsWith("</")) {
-                      balance--; // Found a closing tag.
-                    } else if (!innerTagText.endsWith("/>")) {
-                      balance++; // Found a nested opening tag.
-                    }
-                  }
-
-                  // If balance is 0, we've found our matching closing tag.
-                  if (balance === 0) {
-                    finalTo = innerNode.to;
-                    return false; // Stop this inner scan.
-                  }
-                }
-              },
-            });
-
-            // If we found a complete, balanced element...
-            if (finalTo !== -1) {
-              // Don't render widget if cursor is inside the balanced range.
-              if (!(cursor.from <= finalTo && cursor.to >= node.from)) {
-                const fullHtml = view.state.doc.sliceString(node.from, finalTo);
-                const deco = Decoration.replace({
-                  widget: new HtmlBlockWidget(
-                    fullHtml,
-                    false,
-                    node.from,
-                    finalTo
-                  ),
-                });
-                widgets.push(deco.range(node.from, finalTo));
-              }
-
-              // Mark all tags within this range as "processed" so we don't check them again.
-              syntaxTree(view.state).iterate({
-                from: node.from,
-                to: finalTo,
-                enter: (n) => {
-                  if (n.name === "HTMLTag") {
-                    processedHTMLs.add(n.from);
-                  }
-                },
-              });
-
-              return false;
-            }
-          }
-
-          /**
-           * Adding support for HTML blocks.
-           *
-           * HTML blocks are identified by the "HTMLBlock" node type as a whole.
-           * The content of the block is extracted from the node's range.
-           */
-          if (node.name === "HTMLBlock") {
-            const rawHtml = view.state.doc.sliceString(node.from, node.to);
-            if (rawHtml.trim() === "") return;
-
-            // Don't render widget if cursor is inside the HTML block.
-            if (!(cursor.from <= node.to && cursor.to >= node.from)) {
-              widgets.push(
-                Decoration.widget({
-                  widget: new HtmlBlockWidget(
-                    rawHtml,
-                    true,
-                    node.from,
-                    node.to
-                  ),
-                  block: false,
-                }).range(node.to)
-              );
-
-              widgets.push(decorationHidden.range(node.from, node.to));
-            }
-          }
 
           /**
            * Adding decorations for Image blocks.

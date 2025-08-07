@@ -27,7 +27,7 @@ export default function liveMDPlugin(config: LiveMDPluginConfig) {
           ...(config.lezer ?? []),
           base: markdownLanguage,
           addKeymap: true,
-          extensions: [tagParser, ...(config.lezer?.extensions ?? [])],
+          extensions: [...(config.lezer?.extensions ?? []), tagParser],
           completeHTMLTags: true,
         }),
       ],
