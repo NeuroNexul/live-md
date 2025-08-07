@@ -23,7 +23,11 @@ import { useDebouncedCallback } from "use-debounce";
 import { jsonLanguage } from "@codemirror/lang-json";
 import { indentOnInput } from "@codemirror/language";
 import { languages } from "@codemirror/language-data";
-import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import {
+  markdown,
+  markdownKeymap,
+  markdownLanguage,
+} from "@codemirror/lang-markdown";
 
 import liveMDPlugin from "live-md";
 // import "live-md/katex.css";
@@ -78,6 +82,7 @@ export default function Page() {
   const [value, setValue] = React.useState(defaultValue);
   const [showCode, setShowCode] = React.useState(false);
   const [nodes, setNodes] = React.useState<NodeType[]>([]);
+  const [showNodes, setShowNodes] = React.useState(false);
 
   const defaultExtensions = React.useMemo<Extension[]>(() => {
     return showCode
@@ -100,10 +105,10 @@ export default function Page() {
                 Emoji,
               ],
             },
-            getNodes: (nodes) => setNodes(nodes),
+            getNodes: (nodes) => showNodes && setNodes(nodes),
           }),
         ];
-  }, [showCode]);
+  }, [showCode, showNodes]);
 
   const handleChange = useDebouncedCallback(
     (value: string) => {
@@ -145,6 +150,15 @@ export default function Page() {
             >
               {showCode ? "Live Mode" : "Markdown Mode"}
             </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setShowNodes(!showNodes);
+              }}
+            >
+              {showNodes ? "Hide Nodes" : "Show Nodes"}
+            </Button>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               Character: {editor.current?.state?.doc.length || 0}
             </span>
@@ -178,7 +192,12 @@ export default function Page() {
                 rectangularSelection(),
                 highlightActiveLine(),
                 indentOnInput(),
-                keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
+                keymap.of([
+                  indentWithTab,
+                  ...markdownKeymap,
+                  ...defaultKeymap,
+                  ...historyKeymap,
+                ]),
               ]}
               basicSetup={{
                 drawSelection: true,
@@ -191,33 +210,36 @@ export default function Page() {
             />
           </div>
 
-          <div className="w-2/5 hidden lg:block h-full border-l border-gray-200 dark:border-gray-700 p-4 overflow-y-auto">
-            <h2 className="text-lg font-semibold mb-2">Parsed Nodes</h2>
-            <CodeMirror
-              value={(
-                nodes
-                  .map(
-                    (n) => `[ "${n.name}", "${n.parent}", ${n.from}, ${n.to} ]`
-                  )
-                  .join("\n") || "No nodes found."
-              ).trim()}
-              className="h-full w-full"
-              theme={githubDark}
-              extensions={[
-                jsonLanguage,
-                // EditorView.lineWrapping,
-                keymap.of([indentWithTab, ...defaultKeymap]),
-              ]}
-              basicSetup={{
-                drawSelection: true,
-                highlightActiveLine: true,
-                rectangularSelection: true,
-                indentOnInput: true,
-                lineNumbers: true,
-              }}
-              readOnly={true}
-            />
-          </div>
+          {showNodes && (
+            <div className="w-2/5 hidden lg:block h-full border-l border-gray-200 dark:border-gray-700 p-4 overflow-y-auto">
+              <h2 className="text-lg font-semibold mb-2">Parsed Nodes</h2>
+              <CodeMirror
+                value={(
+                  nodes
+                    .map(
+                      (n) =>
+                        `[ "${n.name}", "${n.parent}", ${n.from}, ${n.to} ]`
+                    )
+                    .join("\n") || "No nodes found."
+                ).trim()}
+                className="h-full w-full"
+                theme={githubDark}
+                extensions={[
+                  jsonLanguage,
+                  // EditorView.lineWrapping,
+                  keymap.of([indentWithTab, ...defaultKeymap]),
+                ]}
+                basicSetup={{
+                  drawSelection: true,
+                  highlightActiveLine: true,
+                  rectangularSelection: true,
+                  indentOnInput: true,
+                  lineNumbers: true,
+                }}
+                readOnly={true}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

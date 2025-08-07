@@ -1,6 +1,6 @@
 import { ViewPlugin } from "@codemirror/view";
 import { LanguageDescription, syntaxHighlighting } from "@codemirror/language";
-import { markdown } from "@codemirror/lang-markdown";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { MarkdownConfig } from "@lezer/markdown";
 
 import RichEditPlugin, { NodeType } from "./rich-edit.js";
@@ -13,24 +13,23 @@ export type LiveMDPluginConfig = {
     codeLanguages: LanguageDescription[];
     extensions: (MarkdownConfig | MarkdownConfig[])[];
   };
-  getNodes: (
-    nodes: NodeType[]
-  ) => void;
+  getNodes: (nodes: NodeType[]) => void;
 };
 
 export default function liveMDPlugin(config: LiveMDPluginConfig) {
-  const mergedConfig = {
-    ...(config.lezer ?? []),
-    extensions: [tagParser, ...(config.lezer?.extensions ?? [])],
-  };
-
   return ViewPlugin.define(
     (view) => new RichEditPlugin(view, config.getNodes),
     {
       decorations: (v) => v.decorations,
       provide: (v) => [
         syntaxHighlighting(highlightStyle),
-        markdown(mergedConfig),
+        markdown({
+          ...(config.lezer ?? []),
+          base: markdownLanguage,
+          addKeymap: true,
+          extensions: [tagParser, ...(config.lezer?.extensions ?? [])],
+          completeHTMLTags: true,
+        }),
       ],
       eventHandlers: {
         mousedown({ target }, view) {

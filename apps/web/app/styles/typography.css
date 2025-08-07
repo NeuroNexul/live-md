@@ -62,5 +62,15 @@
         margin-inline: -0.05rem;
       }
     }
+
+    /* SubScript, SuperScript */
+    .cm-mark-subscript {
+      font-size: 0.7em !important;
+      vertical-align: sub !important;
+    }
+    .cm-mark-superscript {
+      font-size: 0.7em !important;
+      vertical-align: super !important;
+    }
   }
 }

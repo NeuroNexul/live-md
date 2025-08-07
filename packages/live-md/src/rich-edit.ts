@@ -25,6 +25,9 @@ const tokenElement = [
   "BulletList",
   "OrderedList",
   "Task",
+  "Subscript",
+  "Superscript",
+  "Strikethrough",
 ];
 
 const tokenHidden = [
@@ -36,6 +39,9 @@ const tokenHidden = [
   "URL",
   "ListMark",
   "TaskMarker",
+  "SubscriptMark",
+  "SuperscriptMark",
+  "StrikethroughMark",
 ];
 
 export type NodeType = {
