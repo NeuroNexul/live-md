@@ -23,6 +23,7 @@
   .cm-scroller {
     justify-content: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+    display: block !important;
   }
 
   .cm-editor {
