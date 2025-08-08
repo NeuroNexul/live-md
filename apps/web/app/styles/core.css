@@ -4,6 +4,7 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-link: #79c0ff;
 
   --color-dim-muted: color-mix(
     in oklab,

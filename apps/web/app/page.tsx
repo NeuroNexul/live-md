@@ -42,34 +42,11 @@ import {
   Emoji,
 } from "@lezer/markdown";
 import { NodeType } from "../../../packages/live-md/dist/rich-edit";
-
-let defaultValue = `## Title
-
-\`\`\`jsx
-function Demo() {
-  return <div>demo</div>
-}
-\`\`\`
-
-\`\`\`bash
-# Not dependent on uiw.
-npm install @codemirror/lang-markdown --save
-npm install @codemirror/language-data --save
-\`\`\`
-
-[weisit ulr](https://uiwjs.github.io/react-codemirror/)
-
-\`\`\`go
-package main
-import "fmt"
-func main() {
-  fmt.Println("Hello, 世界")
-}
-\`\`\`
-`;
+import { IntroMarkdown } from "./default-text";
 
 export default function Page() {
   const id = "editor-test";
+  let defaultValue = IntroMarkdown;
 
   if (typeof window !== "undefined") {
     const existingValue = localStorage.getItem(id);

@@ -1,11 +1,17 @@
 .livemd {
   .cm-content {
+    --list-padding: 1.5rem;
+
     .cm-bulletlist-line,
     .cm-orderedlist-line {
+      position: relative;
+      text-indent: calc(var(--list-padding) * -1) !important;
+      padding-inline-start: var(--list-padding) !important;
+      tab-size: 4 !important;
+
       .cm-mark-bulletlist,
       .cm-mark-orderedlist {
         position: relative;
-        padding-inline-start: 1.5rem !important;
       }
     }
 
@@ -21,68 +27,91 @@
 
     .cm-orderedlist-line .cm-mark-listmark {
       display: inline-block;
+      white-space: pre;
+      text-indent: 0;
+      width: calc(var(--list-padding) / (4 / 3));
+
       font-weight: bold;
-      width: 1.5em;
       text-align: center;
 
       * {
-        color: inherit !important;
+        color: var(--color-link);
+        opacity: 0.75;
       }
     }
 
-    .cm-bulletlist-line .cm-mark-listmark {
-      display: inline-block;
-      position: relative;
-      color: #889 !important;
-      font-weight: bold;
-      width: 1.5em;
-      text-align: center;
-    }
+    .cm-bulletlist-line {
+      .cm-mark-listmark {
+        display: inline-block;
+        position: relative;
+        white-space: pre;
+        text-indent: 0;
+        width: calc(var(--list-padding) / (4 / 3));
 
-    .cm-bulletlist-line:not(.cm-focused) .cm-mark-listmark::before {
-      content: "•";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      color: inherit !important;
-    }
-
-    .cm-bulletlist-line:not(.cm-focused):has(.cm-mark-task) .cm-mark-listmark {
-      display: none;
-    }
-
-    .cm-bulletlist-line:not(.cm-focused) .cm-mark-taskmarker {
-      display: inline-block;
-      position: relative;
-      width: 1.5em;
-      height: 1.5em;
-
-      span {
-        visibility: hidden;
-      }
-
-      &::before {
-        content: "";
-        font-size: 0.8em;
+        color: #889 !important;
+        font-weight: bold;
         text-align: center;
-        color: var(--color-foreground);
+      }
 
+      .cm-mark-listmark::before {
+        visibility: hidden;
+        content: "•";
+        font-size: 0.75em;
         position: absolute;
-        height: calc(100% - 0.5em);
-        width: calc(100% - 0.5em);
         left: 50%;
         top: 50%;
+        width: 100%;
         transform: translate(-50%, -50%);
-
-        border: 1px solid var(--color-foreground);
-        border-radius: 0.25em;
+        color: var(--color-link);
+        opacity: 0.75;
       }
-    }
 
-    .cm-bulletlist-line:not(.cm-focused)
-      .cm-mark-taskmarker.cm-task-checked::before {
-      content: "✓";
+      &:not(.cm-focused) {
+        .cm-mark-listmark > span {
+          visibility: hidden;
+        }
+
+        .cm-mark-listmark::before {
+          visibility: visible;
+        }
+
+        :has(.cm-mark-task) .cm-mark-listmark {
+          display: none;
+        }
+
+        .cm-mark-taskmarker {
+          display: inline-block;
+          position: relative;
+          width: 1.5em;
+          height: 1.5em;
+
+          span {
+            visibility: hidden;
+          }
+
+          &::before {
+            content: "";
+            font-size: 0.8em;
+            text-align: center;
+            text-indent: 0;
+            color: var(--color-foreground);
+
+            position: absolute;
+            height: calc(100% - 0.5em);
+            width: calc(100% - 0.5em);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            border: 1px solid var(--color-foreground);
+            border-radius: 0.25em;
+          }
+        }
+
+        .cm-mark-taskmarker.cm-task-checked::before {
+          content: "✓";
+        }
+      }
     }
   }
 }

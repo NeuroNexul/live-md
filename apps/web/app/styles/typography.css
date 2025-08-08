@@ -12,17 +12,21 @@
       padding: 0.25rem 0;
       margin-bottom: 0.5rem;
 
-      border: none;
-      border-bottom: 2px solid;
-      border-width: 2px;
-      border-image-slice: 1;
-      border-image-source: linear-gradient(
-        to right,
-        #f4569d,
-        var(--color-background),
-        var(--color-background),
-        var(--color-background)
-      );
+      &.cm-mark-heading-1,
+      &.cm-mark-heading-2,
+      &.cm-mark-heading-3 {
+        border: none;
+        border-bottom: 2px solid;
+        border-width: 2px;
+        border-image-slice: 1;
+        border-image-source: linear-gradient(
+          to right,
+          #f4569d,
+          var(--color-background),
+          var(--color-background),
+          var(--color-background)
+        );
+      }
 
       * {
         color: var(--color-foreground) !important;

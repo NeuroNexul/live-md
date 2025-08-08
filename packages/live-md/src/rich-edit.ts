@@ -274,6 +274,8 @@ export default class RichEditPlugin implements PluginValue {
                 class: `cm-${node.name.toLowerCase()}-end-line`,
               }).range(endLine.from)
             );
+
+            return;
           }
 
           /**
