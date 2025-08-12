@@ -13,6 +13,7 @@ import HtmlBlockWidget from "./widgets/html-widget.js";
 
 // Preset decorations for rich text editing
 export const decorationHidden = Decoration.mark({ class: "cm-mark-hidden" });
+export const lineHidden = Decoration.line({ class: "cm-line-hidden" });
 export const decorationToHide = Decoration.mark({ class: "cm-mark-to-hide" });
 export const decorationTag = Decoration.mark({ class: "cm-mark-tag" });
 
@@ -28,6 +29,7 @@ const tokenElement = [
   "Subscript",
   "Superscript",
   "Strikethrough",
+  "Blockquote",
 ];
 
 const tokenHidden = [
@@ -40,6 +42,7 @@ const tokenHidden = [
   "SubscriptMark",
   "SuperscriptMark",
   "StrikethroughMark",
+  "QuoteMark",
 ];
 
 export type NodeType = {
@@ -82,6 +85,8 @@ export default class RichEditPlugin implements PluginValue {
         from,
         to,
         enter(node) {
+          const isCursorInside =
+            cursor.from >= node.from && cursor.to <= node.to;
           // console.log(`Node: ${node.name}, From: ${node.from}, To: ${node.to}`);
 
           // Push the node to the nodes array according to the structure
@@ -155,7 +160,7 @@ export default class RichEditPlugin implements PluginValue {
               }).range(node.to)
             );
 
-            if (cursor.from < node.from || cursor.to > node.to)
+            if (!isCursorInside)
               widgets.push(decorationHidden.range(node.from, node.to));
           }
 
@@ -219,14 +224,10 @@ export default class RichEditPlugin implements PluginValue {
             // Get the content of the math block without the $$ delimiters or $ delimiters
             const content = view.state
               .sliceDoc(node.from, node.to)
-              .replace(/^\$\$|\$\$$/g, "")
-              .replace(/^\$|\$$/g, "");
+              .replace(/\$\$|\$\$$/g, "")
+              .replace(/\$|\$$/g, "");
 
-            if (
-              cursor.from < node.from ||
-              cursor.to > node.to ||
-              node.name === "BlockMath"
-            )
+            if (!isCursorInside || node.name === "BlockMath")
               widgets.push(
                 Decoration.widget({
                   widget: new MathBlockWidget(
@@ -240,8 +241,43 @@ export default class RichEditPlugin implements PluginValue {
                 }).range(node.to)
               );
 
-            if (cursor.from < node.from || cursor.to > node.to)
+            if (!isCursorInside) {
+              const startLine = view.state.doc.lineAt(node.from);
+              const endLine = view.state.doc.lineAt(node.to);
+
               widgets.push(decorationHidden.range(node.from, node.to));
+
+              for (let i = startLine.number + 1; i < endLine.number; i++) {
+                widgets.push(lineHidden.range(view.state.doc.line(i).from));
+              }
+            }
+          }
+
+          if (node.name === "Blockquote") {
+            const startLine = view.state.doc.lineAt(node.from);
+            const endLine = view.state.doc.lineAt(node.to);
+
+            for (let i = startLine.number; i <= endLine.number; i++) {
+              const line = view.state.doc.line(i);
+              widgets.push(
+                Decoration.line({ class: "cm-blockquote-line" }).range(
+                  line.from
+                )
+              );
+            }
+
+            // Add decorations for the start and end lines of the block
+            // with the language information if available else default to "plane"
+            widgets.push(
+              Decoration.line({
+                class: "cm-blockquote-start-line",
+              }).range(startLine.from)
+            );
+            widgets.push(
+              Decoration.line({ class: "cm-blockquote-end-line" }).range(
+                endLine.from
+              )
+            );
           }
 
           /**

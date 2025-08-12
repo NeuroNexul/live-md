@@ -1,0 +1,48 @@
+.livemd {
+  .cm-content {
+    .cm-blockquote-line {
+      padding: 0rem 1.5rem !important;
+      margin: 0 -1rem !important;
+      background-color: color-mix(
+        in oklab,
+        var(--muted) 90%,
+        var(--background) 100%
+      ) !important;
+      border-left: 6px solid var(--color-link) !important;
+
+      .cm-mark-blockquote {
+        display: block;
+
+        &:has([class^="cm-mark-heading-"]) {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      @media (max-width: 52rem) {
+        margin: 0 0.5rem !important;
+      }
+
+      * {
+        color: inherit !important;
+      }
+    }
+
+    .cm-blockquote-start-line {
+      position: relative;
+      /* border-radius: 1rem 1rem 0 0 !important; */
+      border-top-left-radius: 1rem !important;
+      border-top-right-radius: 1rem !important;
+      padding-top: 0.75rem !important;
+      margin-top: 0.5rem !important;
+    }
+
+    .cm-blockquote-end-line {
+      /* border-radius: 0 0 1rem 1rem !important; */
+      border-bottom-left-radius: 1rem !important;
+      border-bottom-right-radius: 1rem !important;
+      padding-bottom: 0.75rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+  }
+}

@@ -34,15 +34,15 @@ export default {
         // The block must start with '$$' on a line by itself
         if (line.text.slice(line.pos).trim() !== "$$") return false;
 
-        const start = cx.lineStart;
+        const start = cx.lineStart + line.text.indexOf("$$");
 
         // Keep reading lines until we find the closing '$$'
         while (cx.nextLine()) {
           if (line.text.slice(line.pos).trim() === "$$") {
+            const end = cx.lineStart + line.text.length;
+
             // Found the end. Create the element.
-            cx.addElement(
-              cx.elt("BlockMath", start, cx.lineStart + line.text.length)
-            );
+            cx.addElement(cx.elt("BlockMath", start, end));
             // Move past the closing line
             cx.nextLine();
             return true;

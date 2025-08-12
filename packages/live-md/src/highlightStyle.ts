@@ -4,7 +4,7 @@ import { tags as t } from '@lezer/highlight';
 export default HighlightStyle.define([
   { tag: t.heading1, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '2em', textDecoration: 'none' },
   { tag: t.heading2, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '1.75em', textDecoration: 'none' },
-  { tag: t.heading3, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '1.5em', textDecoration: 'none' },
+  { tag: t.heading3, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '1.35em', textDecoration: 'none' },
   { tag: t.heading4, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '1.375em', textDecoration: 'none' },
   { tag: t.heading5, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '1.25em', textDecoration: 'none' },
   { tag: t.heading6, fontWeight: 'bold', fontFamily: 'sans-serif', fontSize: '1.125em', textDecoration: 'none' },

@@ -62,8 +62,9 @@
     .cm-line {
       padding: 0 0.5rem;
 
-      .cm-mark-hidden {
-        display: none;
+      .cm-mark-hidden,
+      &.cm-line-hidden {
+        display: none !important;
       }
 
       .cm-mark-codemark,
